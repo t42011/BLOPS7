@@ -23,7 +23,7 @@ Not Optimized for warzone yet.
 ## Planned :
 
 - [ ]  Bones
-- [ ] loot ESP
+- [ ] Loot ESP
 - [ ] Web Radar
 
 <img width="2554" height="1396" alt="SCREENSHOT1" src="https://github.com/user-attachments/assets/e7ddf5a3-2e28-4dfb-bf88-e43c3836032c" />
