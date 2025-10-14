@@ -712,7 +712,9 @@ void DrawAimbotTab() {
         ImGui::Checkbox("Enable Aimbot", &Config.EnableAimbot);
         ImGui::Checkbox("Ignore Knocked", &Config.IgnoreKnocked);
 		ImGui::Checkbox("Visible Check", &Config.AimbotVisibleOnly);
-
+        ImGui::Checkbox("Ignore Team", &Config.ignoreteam);
+        HoverTooltip("Useful for FFA Modes ");
+        ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
@@ -744,7 +746,7 @@ void DrawAimbotTab() {
          // Row 1: Enable Items and Draw Name
          ImGui::Checkbox("Enable Triggerbot ", &Config.EnableTrigger);
          HoverTooltip("Uses Existing Aimbot Pipeline");
-         ImGui::Checkbox("Ignore Downed", &Config.IgnoreKnocked);
+        
 
          // Row 2: Draw Box
          ImGui::Keybind("Triggerbot Hotkey", &Config.TriggerbotKey, &Config.TriggerbotMode,false);

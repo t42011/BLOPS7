@@ -159,7 +159,7 @@ void aimAt(FVector2D target) {
          break;
      }
      case NET:
-         kmNet_mouse_left(1);
+         kmNet_mouse_left(0);
          break;
      case MEMORY:
 
@@ -172,14 +172,11 @@ void aimAt(FVector2D target) {
  void Aimbot::Triggerbot(FVector2D target) {
      static uint64_t keyDownTime = 0;
      if (mem.GetKeyboard()->IsKeyDown(Config.TriggerbotKey)) {
-         if (!keyDownTime) keyDownTime = GetTickCount64(); 
-         if (GetTickCount64() - keyDownTime >= Config.TriggerDelay) {
-             Shoot();
-             Release(target);
-         }
+         if (!keyDownTime) keyDownTime = GetTickCount64();
+         if (GetTickCount64() - keyDownTime < Config.TriggerDelay) return;
+         Shoot();
+         Release(target);
      }
-     else {
-         keyDownTime = 0;
-     }
+     else keyDownTime = 0;
  }
  

@@ -77,6 +77,7 @@ struct Settings {
     bool EnableAimbot = true;
     bool IgnoreKnocked = true;
     bool AimbotVisibleOnly = false;
+    bool ignoreteam = true;
     float MaxAimDistance = 300.0f;
     int AimbotMode = 1;
     int AimbotKey = VK_RIGHT;
