@@ -227,7 +227,7 @@ void Game::Loop(_PlayerCache& localplayer) {
                   std::this_thread::sleep_for(std::chrono::milliseconds(8));
             }
 
-            std::cout << "CLEANING UP.." << std::endl;
+            std::cout << "CLEANING UP..." << std::endl;
             cache.Players.clear();
             cache.ClientBase = 0;
             cache.ClientInfo = 0;
