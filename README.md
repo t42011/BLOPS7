@@ -1,5 +1,8 @@
 # Black ops 7 DMA
 ![2025-10-14 03-04-31 2](https://github.com/user-attachments/assets/b8eccf45-0a4e-44fd-b693-2068fea138cb)
+
+My first attempt at an IW engine game outside of the PS3 Jailbreak Modding days.
+Not Optimized for warzone yet.
 ## Completed
 1. ESP
      - Head ESP
@@ -28,7 +31,7 @@
  
 
 > [!IMPORTANT]
->I'm obviouisly not responsible for any bans, this was made to get more acquainted with c++ and gain some knowledge .
+>I'm obviously not responsible for any bans, this was made to get more acquainted with c++ and gain some knowledge .
 ## Credits:
 
 Offsets and decryption is from [@UtterlyTV](https://www.unknowncheats.me/forum/members/5347170.html)
