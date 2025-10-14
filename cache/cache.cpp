@@ -187,7 +187,6 @@ void Game::Loop(_PlayerCache& localplayer) {
 
                       if (!p.valid || p.teamId > 300 || p.index == localplayer.index || p.teamId == localplayer.teamId) continue;
                       if (Config.AimbotVisibleOnly && !p.visible) continue;
-                      //health AND dead okay...
                       if (p.headW2S.IsZeroVector() || (p.status & DEAD) || p.NameEnt.health <= 0) continue;
                       if (Config.IgnoreKnocked && (p.status & KNOCKED)) continue;
 
@@ -227,7 +226,7 @@ void Game::Loop(_PlayerCache& localplayer) {
                   std::this_thread::sleep_for(std::chrono::milliseconds(8));
             }
 
-            std::cout << "CLEANING UP..." << std::endl;
+            std::cout << "CLEANING UP.." << std::endl;
             cache.Players.clear();
             cache.ClientBase = 0;
             cache.ClientInfo = 0;
@@ -240,15 +239,11 @@ void Game::Loop(_PlayerCache& localplayer) {
 }
 void Game::PlayerLoop(bool debug, _PlayerCache& localplayer) {
     static int nameUpdateCounter = 0;
-
-    if (nameUpdateCounter == 0) {
-        cache.visibilityBits = mem.Read<clientbits>(cache.ClientInfo + Globals::Offset.o_visible_bit);
-    }
-
-    //why even update name this much 
+    ////why even update name this much 
     if (nameUpdateCounter++ % 90 == 0) {
         auto nameHandle = mem.CreateScatterHandle();
         uint64_t nameListBase = localplayer.Retrieve_name_list();
+
         localplayer.QueueNameRead(nameHandle, nameListBase);
 
         int nameCount = 0;
@@ -259,7 +254,7 @@ void Game::PlayerLoop(bool debug, _PlayerCache& localplayer) {
         mem.ExecuteReadScatter(nameHandle);
         mem.CloseScatterHandle(nameHandle);
     }
-
+    
     std::vector<std::pair<int, float>> playersByDistance;
     playersByDistance.reserve(cache.Players.size());
 
@@ -271,24 +266,35 @@ void Game::PlayerLoop(bool debug, _PlayerCache& localplayer) {
             player.RootW2S = { 0, 0 };
             continue;
         }
-
+        
+        cache.visibilityBits = mem.Read<clientbits>(cache.ClientInfo + Globals::Offset.o_visible_bit);
         float dist = localplayer.pos.DistTo(player.pos) / 100.0f;
         player.distance = (int)dist;
         playersByDistance.push_back({ i, dist });
-        player.visible = isVisible(cache.visibilityBits, player.index);
+        player.visible = isVisible(cache.visibilityBits,player.index);
+        FVector head3D;
+        if (player.valid) {
 
-        FVector head3D = player.pos;
-        if (player.stance == EEntityStance::STAND)
-            head3D.Z += 55.0f;
-        else if (player.stance == EEntityStance::CROUCH)
-            head3D.Z += 30.0f;
-        else
-            head3D.Z += 20.0f;
+            head3D = player.pos;
 
-        W2S(head3D, player.headW2S, localplayer.cam);
-        W2S(player.pos, player.RootW2S, localplayer.cam);
-
+            if (player.stance == EEntityStance::STAND)
+                head3D.Z += 55.0f;
+            else if (player.stance == EEntityStance::CROUCH)
+				head3D.Z += 30.0f;
+            else
+				head3D.Z += 20.0f;
+            
+            W2S(head3D, player.headW2S, localplayer.cam);
+            W2S(player.pos, player.RootW2S, localplayer.cam);
+            
+        }
+        else {
+            player.headW2S = { 0, 0 };
+            player.RootW2S = { 0, 0 };
+        }
+        
         validCount++;
+
     }
 
     std::sort(playersByDistance.begin(), playersByDistance.end(),
@@ -296,6 +302,7 @@ void Game::PlayerLoop(bool debug, _PlayerCache& localplayer) {
 
     if (debug) {
         std::cout << "Valid: " << validCount << "/" << cache.Players.size()
+
             << "| FPS: " << Config.readFPS << std::endl;
     }
 
