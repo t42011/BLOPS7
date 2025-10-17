@@ -207,46 +207,51 @@ void Render::Loop() {
 		);
 	}
 
-	std::lock_guard<std::mutex> lock(cache.cacheMutex);
+	// Copy data locally and release mutex ASAP
+	std::array<_PlayerCache, 150> localRenderPlayers;
+	_PlayerCache localPlayer;
+	int playerCount = 0;
 
-	if (cache.RenderPlayerCount == 0) return;
+	{
+		std::lock_guard<std::mutex> lock(cache.cacheMutex);
+		playerCount = cache.RenderPlayerCount;
+		if (playerCount > 0) {
+			std::copy_n(cache.RenderPlayers.begin(), playerCount, localRenderPlayers.begin());
+		}
+		localPlayer = cache.LocalPlayer;
+	}  // Mutex released here!
+
+	if (playerCount == 0) return;
 
 	const int screenW = Globals::screenWidth;
 	const int screenH = Globals::screenHeight;
 
-	for (int i = 0; i < cache.RenderPlayerCount; i++) {
-		const auto& player = cache.RenderPlayers[i];
+	for (int i = 0; i < playerCount; i++) {
+		const auto& player = localRenderPlayers[i];
 
 		if (player.headW2S.IsZeroVector()) continue;
 		if (player.RootW2S.IsZeroVector()) continue;
-
-		//screen bounds check
- 
-		if (player.headW2S.Y < 0 || player.headW2S.Y > screenH) continue;
-		if (player.headW2S.X < 0 || player.headW2S.X > screenW) continue;
-		if (player.RootW2S.Y < 0 || player.RootW2S.Y > screenH) continue;
-		if (player.RootW2S.X < 0 || player.RootW2S.X > screenW) continue;
 
 		if (player.distance > Config.maxDistance) continue;
 
 		if (player.visible == false && Config.VisibleOnly) continue;
 
-		if (!Config.TeamCheck && player.teamId == cache.LocalPlayer.teamId) {
+		if (!Config.TeamCheck && player.teamId == localPlayer.teamId) {
 			continue;
 		}
 
-		 
+
 
 		if (player.NameEnt.health < 1) continue;
 
 		float boxHeight = abs(player.headW2S.Y - player.RootW2S.Y);
 		float boxWidth = boxHeight * 0.55f;
 
-		if (boxHeight < 5.0f || boxHeight > 500.0f) continue;
-		if (boxWidth < 3.0f || boxWidth > 300.0f) continue;
+		if (boxHeight < 1.0f || boxHeight > 2000.0f) continue;
+		if (boxWidth < 0.5f || boxWidth > 1100.0f) continue;
 
 
-		bool isTeammate = (player.teamId == cache.LocalPlayer.teamId);
+		bool isTeammate = (player.teamId == localPlayer.teamId);
 		ImColor boxColor = isTeammate ? ImColor(Config.ColorTeamBox) : ImColor(Config.ColorEnemyBox);
 		ImColor nameColor = isTeammate ? ImColor(Config.ColorTeamName) : ImColor(Config.ColorEnemyName);
 

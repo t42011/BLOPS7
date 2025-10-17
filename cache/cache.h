@@ -28,7 +28,8 @@ struct _PlayerCache {
 	uint32_t stance = 0;
 	BYTE teamId = 0;
 	bool valid = false, visible = false;
-	int index = -1, distance = 0;
+	int index = -1;
+	float distance = 0.0f;
 	PlayerStatus status = ALIVE;
 
 	FVector2D  RootW2S{}, headW2S{}, SHeadW2S{};
@@ -74,14 +75,14 @@ public:
 	FVector bone_origin{};
 	std::mutex cacheMutex;
 
-	void SwapBuffers(_PlayerCache& localplayer, const std::vector<std::pair<int, float>>& sortedPlayers) {
+	void SwapBuffers(_PlayerCache& localplayer) {
 		std::lock_guard<std::mutex> lock(cacheMutex);
 
 		RenderPlayerCount = 0;
-		for (const auto& [idx, dist] : sortedPlayers) {
+		for (auto& player : Players) {
 			if (RenderPlayerCount >= 150) break;
-			if (Players[idx].valid) {
-				RenderPlayers[RenderPlayerCount++] = Players[idx];
+			if (player.valid) {
+				RenderPlayers[RenderPlayerCount++] = player;
 			}
 		}
 		LocalPlayer = localplayer;
@@ -170,11 +171,13 @@ inline void _PlayerCache::UpdateBones(VMMDLL_SCATTER_HANDLE handle) {
 inline void _GameCache::UpdateScoreboardData(VMMDLL_SCATTER_HANDLE handle) {
 	if (ClientInfo == 0) return;
 
+	// Read bone_origin ONCE outside the loop
+	cache.bone_origin = mem.Read<FVector>(cache.ClientInfo + Globals::Offset.bone_base);
+
 	for (auto& player : Players) {
 		if (player.index < 0) continue;
 		uintptr_t statusAddress = ClientInfo + Globals::Offset.scoreboard + (player.index * Globals::Offset.scoreboardsize) + 0x4;
 		mem.AddScatterReadRequest(handle, statusAddress, &player.status, sizeof(int));
-		cache.bone_origin = mem.Read<FVector>(cache.ClientInfo + Globals::Offset.bone_base);
 	}
 }
 

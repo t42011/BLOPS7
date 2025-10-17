@@ -68,7 +68,7 @@ public:
     }
 
     bool IsZeroVector() const {
-        return X <= 0 && Y <= 0;
+        return X == 0.0f && Y == 0.0f;
     }
 };
 
