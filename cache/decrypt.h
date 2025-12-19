@@ -19,6 +19,35 @@ struct ref_def_t;
 class vec3;
 
 class refdef_class {
+
+// Synchronized offset constants (kept in sync with Utility/Globals.h)
+inline constexpr std::uintptr_t ref_def_ptr = 0xDE2A1E8;
+inline constexpr std::uintptr_t name_array = 0xDF9B078;
+inline constexpr std::uintptr_t name_array_pos = 0x3038;
+inline constexpr std::uintptr_t name_array_size = 0xC8;
+inline constexpr std::uintptr_t loot_ptr = 0xF4AC870;
+inline constexpr std::uintptr_t loot_pos = 0x878;
+inline constexpr std::uintptr_t camera_base = 0xDA6C100;
+inline constexpr std::uintptr_t camera_pos = 0x1E4;
+inline constexpr std::uintptr_t local_index = 0x177BB0;
+inline constexpr std::uintptr_t local_index_pos = 0x3AC;
+inline constexpr std::uintptr_t o_no_recoil = 0x149B54;
+inline constexpr std::uintptr_t game_mode = 0xCDDBE08;
+inline constexpr std::uintptr_t weapon_definitions = 0xDCC10F0;
+inline constexpr std::uintptr_t distribute = 0xA78B640;
+inline constexpr std::uint32_t o_visible_bit = 0x776F4;
+inline constexpr std::uintptr_t Player_client_state_enum = 0x15077C;
+inline constexpr std::uintptr_t scoreboard = 0x149BB8;
+inline constexpr std::uintptr_t bone_base = 0x13DB10;
+inline constexpr std::uintptr_t bone_size = 0x1C8;
+inline constexpr std::uintptr_t bone_offset = 0xE0;
+inline constexpr std::uintptr_t player_size = 0x24E8;
+inline constexpr std::uintptr_t player_valid = 0x1694;
+inline constexpr std::uintptr_t player_pos = 0x19E0;
+inline constexpr std::uintptr_t player_team = 0x1680;
+inline constexpr std::uintptr_t player_stance = 0x81D;
+inline constexpr std::uintptr_t weapon_index = 0x2400;
+
 public:
     auto retrieve_ref_def() -> uintptr_t
     {
@@ -1845,6 +1874,4 @@ inline uint16_t get_bone_index(uint32_t bone_index)
     r14 = mem.Read<uint16_t>(rcx + r11 * 1 + 0xA7433A0);            //movsx r14d, word ptr [rcx+r11*1+0xA7433A0]
     return r14;
 }
- 
-
 
