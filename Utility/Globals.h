@@ -9,34 +9,34 @@
 //sigs  48 8D 0D ? ? ? ? 48 8B D6 33 0D ? ? ? ? 4C 8D 4D refdef
 
 struct OFF {
-    std::uintptr_t ref_def_ptr = 0xC9C5540;
-    std::uintptr_t name_array = 0xCB34778;
+    std::uintptr_t ref_def_ptr = 0xDE2A1E8;
+    std::uintptr_t name_array = 0xDF9B078;
     std::uintptr_t name_array_pos = 0x3038;
     std::uintptr_t name_array_size = 0xC8;
-    std::uintptr_t loot_ptr = 0xE4617C8;
-	std::uintptr_t loot_pos = 0x180;
-    std::uintptr_t camera_base = 0xC655530;
-    std::uintptr_t camera_pos = 0x204;
-    std::uintptr_t local_index = 0x1CCB28;
-    std::uintptr_t local_index_pos = 0x394;
-    std::uintptr_t recoil = 0x1B87B0;
-    std::uintptr_t game_mode  = 0xB9CC808;
-    std::uintptr_t weapon_definitions = 0xC7A4AB0;
-    std::uintptr_t distribute = 0x96F6BF8;
-    uint32_t o_visible_bit = 0xDC484;
-    uint32_t o_no_recoil = 0x1A1654;
-    uint32_t Player_client_state_enum = 0x100DA0;
-    std::uintptr_t scoreboard = 0x1A1670;
+    std::uintptr_t loot_ptr = 0xF4AC870;
+    std::uintptr_t loot_pos = 0x878; // updated from provided "loot_size"
+    std::uintptr_t camera_base = 0xDA6C100;
+    std::uintptr_t camera_pos = 0x1E4;
+    std::uintptr_t local_index = 0x177BB0;
+    std::uintptr_t local_index_pos = 0x3AC;
+    std::uintptr_t recoil = 0x149B54; // updated to new no_recoil (best fit)
+    std::uintptr_t game_mode  = 0xCDDBE08;
+    std::uintptr_t weapon_definitions = 0xDCC10F0;
+    std::uintptr_t distribute = 0xA78B640;
+    uint32_t o_visible_bit = 0x776F4;
+    uint32_t o_no_recoil = 0x149B54;
+    uint32_t Player_client_state_enum = 0x15077C;
+    std::uintptr_t scoreboard = 0x149BB8;
     std::uintptr_t scoreboardsize = 0x78;
-    std::uintptr_t bone_base = 0x80800;
-    std::uintptr_t bone_size = 0x1B8;
-    std::uintptr_t bone_offset = 0xD8;
-    std::uintptr_t player_size = 0x23A0;
-    std::uintptr_t player_valid = 0xF3C;
-    std::uintptr_t player_pos = 0x2330;
-    std::uintptr_t player_team = 0x22C2;
-    std::uintptr_t player_stance = 0x197C;
-    std::uintptr_t weapon_index = 0x15F4;
+    std::uintptr_t bone_base = 0x13DB10;
+    std::uintptr_t bone_size = 0x1C8;
+    std::uintptr_t bone_offset = 0xE0;
+    std::uintptr_t player_size = 0x24E8;
+    std::uintptr_t player_valid = 0x1694;
+    std::uintptr_t player_pos = 0x19E0;
+    std::uintptr_t player_team = 0x1680;
+    std::uintptr_t player_stance = 0x81D;
+    std::uintptr_t weapon_index = 0x2400;
 };
 
 struct Settings {
